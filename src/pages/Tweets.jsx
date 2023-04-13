@@ -9,11 +9,5 @@ export const Tweets = () => {
     getUsers().then(setUsers);
   }, []);
 
-  console.log(users);
-
-  return (
-    <div>
-      <TweetsList tweets={users} />
-    </div>
-  );
+  return <TweetsList users={users} />;
 };

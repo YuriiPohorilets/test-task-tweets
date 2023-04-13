@@ -1,9 +1,6 @@
 import { createTheme } from '@mui/material/styles';
 
 export const theme = createTheme({
-  status: {
-    danger: '#e53e3e',
-  },
   palette: {
     primary: {
       main: '#EBD8FF',
@@ -15,5 +12,8 @@ export const theme = createTheme({
       contrastText: '#fff',
       light: 'rgba(235, 216, 255, 1)',
     },
+  },
+  typography: {
+    fontFamily: ['Montserrat', 'sans-serif'].join(','),
   },
 });
