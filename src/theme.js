@@ -14,6 +14,8 @@ export const theme = createTheme({
     },
     secondary: {
       main: '#5736A3',
+      accent: 'rgba(87, 54, 163, 0.2)',
+      darker: 'rgba(92, 211, 167, 0.4)',
     },
   },
   typography: {

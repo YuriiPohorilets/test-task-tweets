@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button, Menu, MenuItem } from '@mui/material';
+import { Button, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 import Fade from '@mui/material/Fade';
 import { filterItems } from 'refs/filterItems';
@@ -17,15 +17,19 @@ export const Filter = () => {
 
   return (
     <>
-      <Button
-        id="fade-button"
-        aria-controls={open ? 'fade-menu' : undefined}
-        aria-haspopup="true"
-        aria-expanded={open ? 'true' : undefined}
-        onClick={handleClick}
-      >
-        <FilterAltIcon sx={{ fontSize: '32px' }} />
-      </Button>
+      <Tooltip title="Filter" placement="left">
+        <Button
+          id="fade-button"
+          aria-controls={open ? 'fade-menu' : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? 'true' : undefined}
+          onClick={handleClick}
+          sx={{ '&:hover': { bgcolor: 'secondary.accent' } }}
+        >
+          <Typography sx={{ fontSize: '18px', color: 'primary.accent' }}>Show all</Typography>
+          <FilterAltIcon sx={{ fontSize: '32px', color: 'primary.accent' }} />
+        </Button>
+      </Tooltip>
 
       <Menu
         id="fade-menu"
@@ -39,7 +43,11 @@ export const Filter = () => {
       >
         {filterItems.map(item => {
           return (
-            <MenuItem key={item} onClick={handleClose}>
+            <MenuItem
+              key={item}
+              onClick={handleClose}
+              sx={{ '&:hover': { bgcolor: 'secondary.accent' }, textTransform: 'uppercase' }}
+            >
               {item}
             </MenuItem>
           );

@@ -1,6 +1,5 @@
 import { Container, AppBar as AppBarMui } from '@mui/material';
 import { Navigation } from 'components/Navigation/Navigation';
-import { Filter } from 'components/Filter/Filter';
 
 export const NavBar = () => {
   return (
@@ -9,7 +8,6 @@ export const NavBar = () => {
         sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '24px' }}
       >
         <Navigation />
-        <Filter />
       </Container>
     </AppBarMui>
   );
