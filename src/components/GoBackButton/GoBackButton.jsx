@@ -1,5 +1,6 @@
 import { useLocation, Link } from 'react-router-dom';
-import { Button } from '@mui/material';
+import { Button, Tooltip } from '@mui/material';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 export const GoBackButton = () => {
   const location = useLocation();
@@ -7,26 +8,25 @@ export const GoBackButton = () => {
   const backLink = location.state?.from ?? '/';
 
   return (
-    <Button
-      component={Link}
-      to={backLink}
-      variant="contained"
-      sx={{
-        '&:hover': {
-          bgcolor: 'primary.darker',
-          // boxShadow: 'none'
-        },
-        p: '16px 36px',
-        bgcolor: 'secondary.darker',
-        color: 'neutral.main',
-        fontWeight: 600,
-        fontSize: '16px',
-        lineHeight: 1.02,
-        borderRadius: '10px',
-        boxShadow: 'none',
-      }}
-    >
-      Go back
-    </Button>
+    <Tooltip title="Previous page" placement="right" arrow>
+      <Button
+        component={Link}
+        to={backLink}
+        variant="outlined"
+        sx={{
+          '&:hover': { bgcolor: 'secondary.accent' },
+          p: '6px 8px',
+          fontWeight: 400,
+          fontSize: '18px',
+          color: 'primary.accent',
+          lineHeight: 1.5,
+          borderRadius: '4px',
+          boxShadow: 'none',
+        }}
+      >
+        <ChevronLeftIcon sx={{ fontSize: '32px', color: 'primary.accent' }} />
+        Go Back
+      </Button>
+    </Tooltip>
   );
 };

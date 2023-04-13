@@ -11,13 +11,14 @@ export const Filter = () => {
   const handleClick = e => {
     setAnchorEl(e.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
   return (
     <>
-      <Tooltip title="Filter" placement="left">
+      <Tooltip title="Filter" placement="left" arrow>
         <Button
           id="fade-button"
           aria-controls={open ? 'fade-menu' : undefined}
