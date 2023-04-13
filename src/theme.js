@@ -12,6 +12,9 @@ export const theme = createTheme({
       contrastText: '#fff',
       light: 'rgba(235, 216, 255, 1)',
     },
+    secondary: {
+      main: '#5736A3',
+    },
   },
   typography: {
     fontFamily: ['Montserrat', 'sans-serif'].join(','),
