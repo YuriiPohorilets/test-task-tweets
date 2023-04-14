@@ -7,7 +7,27 @@ const searchParams = new URLSearchParams({
 });
 
 export const getUsers = async (page = 1) => {
-  const { data } = await axios.get(`/users?${searchParams}&p=${page}`);
+  try {
+    const { data } = await axios.get(`/users?${searchParams}&page=${page}`);
 
-  return data;
+    return data;
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+export const updateUser = async (userId, userFollowers) => {
+  try {
+    const { data } = await axios.patch(
+      `/users/${userId}`,
+      { followers: userFollowers },
+      {
+        headers: { 'content-type': 'application/json' },
+      }
+    );
+
+    return data;
+  } catch (error) {
+    console.log(error.message);
+  }
 };

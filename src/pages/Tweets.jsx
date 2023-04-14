@@ -1,23 +1,24 @@
 import { useEffect } from 'react';
 import { Box } from '@mui/material';
-import { getUsers } from 'utils/usersApi';
+import { getUsers, updateUser } from 'utils/usersApi';
+import { useLocalStorage } from 'hooks/useLocalStorage';
 import { TweetsList } from 'components/TweetsList/TweetsList';
 import { Pagination } from 'components/Pagination/Pagination';
 import { GoBackButton } from 'components/GoBackButton/GoBackButton';
 import { Filter } from 'components/Filter/Filter';
-import { useLocalStorage } from 'hooks/useLocalStorage';
 
 const LS_KEY = 'users';
 
 export const Tweets = () => {
   const [users, setUsers] = useLocalStorage('users', []);
 
-  const handleFollow = userId => {
+  const handleFollow = async userId => {
     setUsers(prevUsers =>
       prevUsers.map(user => {
         if (user.id === userId) {
           user.isFollow = !user.isFollow;
           user.followers = user.isFollow ? user.followers + 1 : user.followers - 1;
+          updateUser(userId, user.followers);
         }
         return user;
       })
