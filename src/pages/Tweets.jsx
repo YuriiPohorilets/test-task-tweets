@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { getUsers, updateUser } from 'utils/usersApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
@@ -7,10 +7,12 @@ import { Pagination } from 'components/Pagination/Pagination';
 import { GoBackButton } from 'components/GoBackButton/GoBackButton';
 import { Filter } from 'components/Filter/Filter';
 
-const LS_KEY = 'users';
+// const LS_KEY = 'users';
 
 export const Tweets = () => {
   const [users, setUsers] = useLocalStorage('users', []);
+  const [page, setPage] = useState('1');
+  // const [followings, setFollowings] = useLocalStorage('users', []);
 
   const handleFollow = async userId => {
     setUsers(prevUsers =>
@@ -25,13 +27,14 @@ export const Tweets = () => {
     );
   };
 
-  useEffect(() => {
-    if (users.length === 0) {
-      getUsers().then(setUsers);
-    }
+  const changePage = (_, value) => {
+    setPage(value);
+  };
 
-    localStorage.setItem(LS_KEY, JSON.stringify(users));
-  }, [setUsers, users]);
+  useEffect(() => {
+    getUsers(page).then(setUsers);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [page]);
 
   return (
     <Box
@@ -57,7 +60,7 @@ export const Tweets = () => {
       </Box>
 
       <TweetsList users={users} onClick={handleFollow} />
-      <Pagination />
+      <Pagination onChange={changePage} />
     </Box>
   );
 };

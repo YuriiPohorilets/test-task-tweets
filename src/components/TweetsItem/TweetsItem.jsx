@@ -29,9 +29,10 @@ export const TweetsItem = ({ user, onClick }) => {
           alt="GoIT logo"
           width="76"
           height="22"
+          loading="lazy"
           sx={{ position: 'absolute', top: 0, left: 0 }}
         />
-        <img src={ImageBg} alt={name} width="308" height="168" />
+        <img src={ImageBg} alt={name} width="308" height="168" loading="lazy" />
       </Box>
 
       <Box
@@ -66,7 +67,7 @@ export const TweetsItem = ({ user, onClick }) => {
               overflow: 'hidden',
             }}
           >
-            <img src={avatar} alt="" width="62" height="62" />
+            <img src={avatar} alt="" width="62" height="62" loading="lazy" />
           </Box>
         </Box>
       </Box>
