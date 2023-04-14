@@ -5,7 +5,7 @@ import { useLocalStorage } from 'hooks/useLocalStorage';
 import { TweetsList } from 'components/TweetsList/TweetsList';
 import { GoBackButton } from 'components/GoBackButton/GoBackButton';
 import { Filter } from 'components/Filter/Filter';
-import { LoadMore } from 'components/LoadMore/LoadMore';
+import { Pagination } from 'components/Pagination/Pagination';
 import { centredItemsStyles } from 'shared/basicStyles';
 
 // const LS_KEY = 'users';
@@ -15,14 +15,25 @@ export const Tweets = () => {
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState('Show all');
   const [isLoading, setIsLoading] = useState(false);
-  // const [followings, setFollowings] = useLocalStorage('followings', []);
+  const [followings, setFollowings] = useLocalStorage('followings', []);
 
   useEffect(() => {
     setIsLoading(true);
 
     const fetchData = async () => {
       const data = await getUsers(page);
-      setUsers(prevUsers => (page === 1 ? data : [...prevUsers, ...data]));
+
+      // setUsers(prevUsers => (page === 1 ? data : [...prevUsers, ...data]));
+      setUsers(prevUsers => {
+        const newUser = data.map(user => {
+          if (followings.includes(user.id)) {
+            return { ...user, isFollow: true };
+          }
+          return user;
+        });
+
+        return [...newUser];
+      });
 
       setIsLoading(false);
     };
@@ -32,27 +43,30 @@ export const Tweets = () => {
   }, [page]);
 
   const handleFollow = async userId => {
-    // setFollowings(prevFollowings => {
-    //   const index = prevFollowings.indexOf(userId);
+    setFollowings(prevFollowings => {
+      const index = prevFollowings.indexOf(userId);
 
-    //   if (index === -1) {
-    //     return [...prevFollowings, { id: userId }];
-    //   } else {
-    //     prevFollowings.splice(index, 1);
-    //     return [...prevFollowings];
-    //   }
-    // });
+      setUsers(prevUsers =>
+        prevUsers.map(user => {
+          if (user.id === userId) {
+            user.isFollow = !user.isFollow;
+            user.followers = user.isFollow ? user.followers + 1 : user.followers - 1;
+          }
+          return user;
+        })
+      );
 
-    setUsers(prevUsers =>
-      prevUsers.map(user => {
-        if (user.id === userId) {
-          user.isFollow = !user.isFollow;
-          user.followers = user.isFollow ? user.followers + 1 : user.followers - 1;
-          updateUser(userId, user.followers);
-        }
-        return user;
-      })
-    );
+      if (index === -1 || prevFollowings.lenght === 0) {
+        return [...prevFollowings, userId];
+      } else {
+        prevFollowings.splice(index, 1);
+        return [...prevFollowings];
+      }
+    });
+
+    const [user] = users.filter(user => user.id === userId);
+
+    updateUser(userId, user.followers);
   };
 
   const handleFilter = (value, closeMenufn) => {
@@ -60,8 +74,8 @@ export const Tweets = () => {
     closeMenufn(null);
   };
 
-  const handleLoadMore = () => {
-    setPage(prevPage => prevPage + 1);
+  const handleLoadMore = (_, value) => {
+    setPage(value);
   };
 
   return (
@@ -87,8 +101,9 @@ export const Tweets = () => {
 
       {users && <TweetsList users={users} onClick={handleFollow} />}
 
-      {isLoading && <CircularProgress color="secondary" />}
-      <LoadMore disabled={isLoading} onClick={handleLoadMore} />
+      {/* {isLoading && <CircularProgress color="secondary" />} */}
+      <Pagination onChange={handleLoadMore} />
+      {/* <LoadMore disabled={isLoading} onClick={handleLoadMore} /> */}
     </Box>
   );
 };
