@@ -1,17 +1,27 @@
-import { Box, Typography, ListItem } from '@mui/material';
-import { Button } from 'shared/Button';
+import { Box, Typography, ListItem, Button } from '@mui/material';
 import ImageBg from 'assets/img-1.webp';
 
-export const TweetsItem = ({ user }) => {
-  const { user: name, followers, avatar, tweets } = user;
+export const TweetsItem = ({ user, onClick }) => {
+  const { id, user: name, followers, avatar, tweets, isFollow = false } = user;
 
-  const contentStyle = {
+  const contentStyles = {
     color: 'primary.main',
     fontWeight: 500,
     fontSize: '20px',
     lineHeight: 1.2,
     textAlign: 'center',
     textTransform: 'uppercase',
+  };
+
+  const buttonStyles = {
+    '&:hover': { bgcolor: 'primary.darker', boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.25);' },
+    p: '14px 56px',
+    color: 'neutral.main',
+    fontWeight: 600,
+    fontSize: '18px',
+    lineHeight: 1.22,
+    borderRadius: '10px',
+    boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.25);',
   };
 
   return (
@@ -85,12 +95,18 @@ export const TweetsItem = ({ user }) => {
           gap: '16px',
         }}
       >
-        <Typography sx={{ ...contentStyle, color: 'primary.darker' }}>{name}</Typography>
-        <Typography sx={{ ...contentStyle }}>{tweets.toLocaleString()} tweets</Typography>
-        <Typography sx={{ ...contentStyle }}>{followers.toLocaleString()} followers</Typography>
+        <Typography sx={{ ...contentStyles, color: 'primary.darker' }}>{name}</Typography>
+        <Typography sx={{ ...contentStyles }}>{tweets.toLocaleString()} tweets</Typography>
+        <Typography sx={{ ...contentStyles }}>{followers.toLocaleString()} followers</Typography>
       </Box>
 
-      <Button>Follow</Button>
+      <Button
+        onClick={() => onClick(id)}
+        variant="contained"
+        sx={{ ...buttonStyles, ...(isFollow ? { bgcolor: 'primary.darker' } : {}) }}
+      >
+        {isFollow ? 'Following' : 'Follow'}
+      </Button>
     </ListItem>
   );
 };

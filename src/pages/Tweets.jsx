@@ -12,13 +12,25 @@ const LS_KEY = 'users';
 export const Tweets = () => {
   const [users, setUsers] = useLocalStorage('users', []);
 
-  if (users.length === 0) {
-    getUsers().then(setUsers);
-  }
+  const handleFollow = userId => {
+    setUsers(prevUsers =>
+      prevUsers.map(user => {
+        if (user.id === userId) {
+          user.isFollow = !user.isFollow;
+          user.followers = user.isFollow ? user.followers + 1 : user.followers - 1;
+        }
+        return user;
+      })
+    );
+  };
 
   useEffect(() => {
+    if (users.length === 0) {
+      getUsers().then(setUsers);
+    }
+
     localStorage.setItem(LS_KEY, JSON.stringify(users));
-  }, [users]);
+  }, [setUsers, users]);
 
   return (
     <Box
@@ -43,7 +55,7 @@ export const Tweets = () => {
         <Filter />
       </Box>
 
-      <TweetsList users={users} />
+      <TweetsList users={users} onClick={handleFollow} />
       <Pagination />
     </Box>
   );
