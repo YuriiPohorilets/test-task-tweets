@@ -1,10 +1,9 @@
 import { useState } from 'react';
-import { Button, Menu, MenuItem, Tooltip, Typography } from '@mui/material';
+import { Button, Menu, MenuItem, Tooltip, Typography, Fade } from '@mui/material';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import Fade from '@mui/material/Fade';
 import { filterItems } from 'refs/filterItems';
 
-export const Filter = () => {
+export const Filter = ({ value, onChange }) => {
   const [anchorEl, setAnchorEl] = useState('');
   const open = Boolean(anchorEl);
 
@@ -27,7 +26,7 @@ export const Filter = () => {
           onClick={handleClick}
           sx={{ '&:hover': { bgcolor: 'secondary.accent' } }}
         >
-          <Typography sx={{ fontSize: '18px', color: 'primary.accent' }}>Show all</Typography>
+          <Typography sx={{ fontSize: '18px', color: 'primary.accent' }}>{value}</Typography>
           <FilterAltIcon sx={{ fontSize: '32px', color: 'primary.accent' }} />
         </Button>
       </Tooltip>
@@ -46,7 +45,9 @@ export const Filter = () => {
           return (
             <MenuItem
               key={item}
-              onClick={handleClose}
+              onClick={() => {
+                onChange(item, setAnchorEl);
+              }}
               sx={{ '&:hover': { bgcolor: 'secondary.accent' }, textTransform: 'uppercase' }}
             >
               {item}
