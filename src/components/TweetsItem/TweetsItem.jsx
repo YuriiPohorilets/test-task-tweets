@@ -4,11 +4,13 @@ import ImageBg from 'assets/img-1.webp';
 
 export const TweetsItem = ({ user }) => {
   const { user: name, followers, avatar, tweets } = user;
+
   const contentStyle = {
     color: 'primary.main',
     fontWeight: 500,
     fontSize: '20px',
     lineHeight: 1.2,
+    textAlign: 'center',
     textTransform: 'uppercase',
   };
 
@@ -41,7 +43,7 @@ export const TweetsItem = ({ user }) => {
           height: '8px',
           bgcolor: '#EBD8FF',
           boxShadow:
-            '0px 3px 3px rgba(0, 0, 0, 0.06), inset 0px -2px 3px #AE7BE3, inset 0px 3px 3px #FBF8FF;',
+            '0px 3px 3px rgba(0, 0, 0, 0.1), inset 0px -2px 3px #AE7BE3, inset 0px 3px 3px #FBF8FF;',
         }}
       >
         <Box
@@ -57,7 +59,7 @@ export const TweetsItem = ({ user }) => {
             justifyContent: 'center',
             bgcolor: '#EBD8FF',
             boxShadow:
-              '0px 4px 4px rgba(0, 0, 0, 0.06), inset 0px -2px 4px #AE7BE3, inset 0px 4px 3px #FBF8FF;',
+              '0px 4px 4px rgba(0, 0, 0, 0.1), inset 0px -2px 4px #AE7BE3, inset 0px 4px 3px #FBF8FF;',
             borderRadius: '50%',
           }}
         >
@@ -83,6 +85,7 @@ export const TweetsItem = ({ user }) => {
           gap: '16px',
         }}
       >
+        <Typography sx={{ ...contentStyle, color: 'primary.darker' }}>{name}</Typography>
         <Typography sx={{ ...contentStyle }}>{tweets.toLocaleString()} tweets</Typography>
         <Typography sx={{ ...contentStyle }}>{followers.toLocaleString()} followers</Typography>
       </Box>
