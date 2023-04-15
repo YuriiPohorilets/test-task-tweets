@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, CircularProgress } from '@mui/material';
+import { Box } from '@mui/material';
 import { getUsers, updateUser } from 'utils/usersApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { TweetsList } from 'components/TweetsList/TweetsList';
@@ -8,23 +8,19 @@ import { Filter } from 'components/Filter/Filter';
 import { Pagination } from 'components/Pagination/Pagination';
 import { centredItemsStyles } from 'shared/basicStyles';
 
-// const LS_KEY = 'users';
-
 export const Tweets = () => {
   const [users, setUsers] = useLocalStorage('users', []);
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState('Show all');
-  const [isLoading, setIsLoading] = useState(false);
+  // const [totalHits, setTotalHits] = useState(0);
   const [followings, setFollowings] = useLocalStorage('followings', []);
 
   useEffect(() => {
-    setIsLoading(true);
-
     const fetchData = async () => {
       const data = await getUsers(page);
 
       // setUsers(prevUsers => (page === 1 ? data : [...prevUsers, ...data]));
-      setUsers(prevUsers => {
+      setUsers(() => {
         const newUser = data.map(user => {
           if (followings.includes(user.id)) {
             return { ...user, isFollow: true };
@@ -34,8 +30,6 @@ export const Tweets = () => {
 
         return [...newUser];
       });
-
-      setIsLoading(false);
     };
 
     fetchData();
@@ -74,9 +68,30 @@ export const Tweets = () => {
     closeMenufn(null);
   };
 
-  const handleLoadMore = (_, value) => {
+  const handleChangePage = (_, value) => {
     setPage(value);
+
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
   };
+
+  const filtredUsers = users.filter(user => {
+    if (filter === 'Follow') {
+      return user.isFollow === false;
+    }
+
+    if (filter === 'Followings') {
+      return user?.isFollow !== false;
+    }
+
+    if (filter === 'Show all') {
+      return user;
+    }
+
+    return user;
+  });
 
   return (
     <Box
@@ -99,11 +114,11 @@ export const Tweets = () => {
         <Filter value={filter} onChange={handleFilter} />
       </Box>
 
-      {users && <TweetsList users={users} onClick={handleFollow} />}
+      {users && <TweetsList users={filtredUsers} onClick={handleFollow} />}
 
       {/* {isLoading && <CircularProgress color="secondary" />} */}
-      <Pagination onChange={handleLoadMore} />
-      {/* <LoadMore disabled={isLoading} onClick={handleLoadMore} /> */}
+      <Pagination onChange={handleChangePage} />
+      {/* <LoadMore disabled={isLoading} onClick={handleChangePage} /> */}
     </Box>
   );
 };
