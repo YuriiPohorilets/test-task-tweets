@@ -16,6 +16,7 @@ export const contentStyles = {
 export const buttonStyles = {
   '&:hover': { bgcolor: 'primary.darker', boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.25);' },
   p: '14px 56px',
+  minWidth: '229px',
   color: 'neutral.main',
   fontWeight: 600,
   fontSize: '18px',

@@ -12,10 +12,11 @@ import { centredItemsStyles } from 'shared/basicStyles';
 
 export const Tweets = () => {
   const [users, setUsers] = useLocalStorage('users', []);
-  const [page, setPage] = useState(1);
   const [filter, setFilter] = useLocalStorage('filter', ['Show all']);
-  // const [totalHits, setTotalHits] = useState(10);
   const [followings, setFollowings] = useLocalStorage('followings', []);
+  const [page, setPage] = useState(1);
+  const [totalHits, setTotalHits] = useState(0);
+  const [index, setIndex] = useState(9);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -73,6 +74,7 @@ export const Tweets = () => {
 
   const handleChangePage = () => {
     setPage(prevPage => prevPage + 1);
+    setIndex(prevIndex => prevIndex + 9);
   };
 
   const filtredUsers = users
@@ -82,13 +84,15 @@ export const Tweets = () => {
 
       return user;
     })
-    .sort((a, b) => a.id - b.id);
+    .sort((a, b) => a.id - b.id)
+    .splice(0, index);
+
+  // const usersRender = page === 1 ? filtredUsers.splice(0, 9) : filtredUsers;
 
   return (
     <Box sx={{ ...centredItemsStyles, flexDirection: 'column', gap: '28px' }}>
       <ToolsBar>
         <GoBackButton />
-
         <Filter value={filter} onChange={handleFilter} />
       </ToolsBar>
 
