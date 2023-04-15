@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { getUsers, updateUser } from 'utils/usersApi';
 import { isSameUser, compareArr } from 'utils/compareArray';
+import { limit } from 'refs/constants';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { TweetsList } from 'components/TweetsList/TweetsList';
 import { ToolsBar } from 'components/ToolsBar/ToolsBar';
@@ -17,9 +18,11 @@ export const Tweets = () => {
   const [page, setPage] = useState(1);
   const [totalHits, setTotalHits] = useState(0);
   const [index, setIndex] = useState(9);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
+      setIsLoading(true);
       const data = await getUsers(page);
 
       setUsers(prevUsers => {
@@ -34,6 +37,8 @@ export const Tweets = () => {
 
         return [...compareUsers, ...newUser];
       });
+
+      setIsLoading(false);
     };
 
     fetchData();
@@ -67,14 +72,16 @@ export const Tweets = () => {
   };
 
   const handleFilter = (value, closeMenufn, setSelectedItem) => {
+    console.log(page);
     setFilter(value);
     setSelectedItem(value);
     closeMenufn(null);
+    setPage(1);
   };
 
   const handleChangePage = () => {
     setPage(prevPage => prevPage + 1);
-    setIndex(prevIndex => prevIndex + 9);
+    setIndex(prevIndex => prevIndex + limit);
   };
 
   const filtredUsers = users
@@ -87,8 +94,6 @@ export const Tweets = () => {
     .sort((a, b) => a.id - b.id)
     .splice(0, index);
 
-  // const usersRender = page === 1 ? filtredUsers.splice(0, 9) : filtredUsers;
-
   return (
     <Box sx={{ ...centredItemsStyles, flexDirection: 'column', gap: '28px' }}>
       <ToolsBar>
@@ -98,7 +103,7 @@ export const Tweets = () => {
 
       {users && <TweetsList users={filtredUsers} onClick={handleFollow} />}
 
-      <LoadMoreButton onClick={handleChangePage} />
+      <LoadMoreButton loading={isLoading} onClick={handleChangePage} />
     </Box>
   );
 };

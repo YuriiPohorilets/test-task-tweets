@@ -1,9 +1,10 @@
 import axios from 'axios';
+import { limit } from 'refs/constants';
 
 axios.defaults.baseURL = 'https://6436f7fc8205915d34019426.mockapi.io/api/';
 
 const searchParams = new URLSearchParams({
-  limit: 9,
+  limit,
 });
 
 export const getUsers = async (page = 1) => {
