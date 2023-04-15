@@ -12,7 +12,7 @@ import { centredItemsStyles } from 'shared/basicStyles';
 export const Tweets = () => {
   const [users, setUsers] = useLocalStorage('users', []);
   const [page, setPage] = useState(1);
-  const [filter, setFilter] = useState('Show all');
+  const [filter, setFilter] = useLocalStorage('filter', ['Show all']);
   const [totalHits, setTotalHits] = useState(10);
   const [followings, setFollowings] = useLocalStorage('followings', []);
 
@@ -32,7 +32,7 @@ export const Tweets = () => {
       });
     };
 
-    fetchData().then(setTotalHits(3));
+    fetchData().then(setTotalHits(10));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
@@ -59,12 +59,12 @@ export const Tweets = () => {
     });
 
     const [user] = users.filter(user => user.id === userId);
-
     updateUser(userId, user.followers);
   };
 
-  const handleFilter = (value, closeMenufn) => {
+  const handleFilter = (value, index, closeMenufn, setIndex) => {
     setFilter(value);
+    setIndex(index);
     closeMenufn(null);
   };
 
@@ -78,17 +78,8 @@ export const Tweets = () => {
   };
 
   const filtredUsers = users.filter(user => {
-    if (filter === 'Follow') {
-      return user.isFollow === false;
-    }
-
-    if (filter === 'Followings') {
-      return user.isFollow === true;
-    }
-
-    if (filter === 'Show all') {
-      return user;
-    }
+    if (filter === 'Follow') return !user.isFollow;
+    if (filter === 'Followings') return user.isFollow;
 
     return user;
   });

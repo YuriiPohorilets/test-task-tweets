@@ -1,11 +1,13 @@
 import { useState } from 'react';
 import { Button, Menu, MenuItem, Tooltip, Typography, Fade } from '@mui/material';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import { FilterAlt } from '@mui/icons-material/';
 import { statusFilters } from 'refs/constants';
 import { buttonFilterStyle, textStyle, iconFilterStyle, menuItemsStyle } from './filterStyles';
 
 export const Filter = ({ value, onChange }) => {
   const [anchorEl, setAnchorEl] = useState('');
+  const [selectedIndex, setSelectedIndex] = useState(0);
+
   const open = Boolean(anchorEl);
 
   const handleClick = e => {
@@ -28,7 +30,7 @@ export const Filter = ({ value, onChange }) => {
           sx={buttonFilterStyle}
         >
           <Typography sx={textStyle}>{value}</Typography>
-          <FilterAltIcon sx={iconFilterStyle} />
+          <FilterAlt sx={iconFilterStyle} />
         </Button>
       </Tooltip>
 
@@ -40,12 +42,14 @@ export const Filter = ({ value, onChange }) => {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        {statusFilters.map(item => {
+        {statusFilters.map((item, index) => {
           return (
             <MenuItem
               key={item}
+              disabled={index === selectedIndex}
+              selected={index === selectedIndex}
               onClick={() => {
-                onChange(item, setAnchorEl);
+                onChange(item, index, setAnchorEl, setSelectedIndex);
               }}
               sx={menuItemsStyle}
             >

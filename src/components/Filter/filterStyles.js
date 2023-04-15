@@ -14,5 +14,8 @@ export const iconFilterStyle = {
 
 export const menuItemsStyle = {
   '&:hover': { bgcolor: 'secondary.accent' },
+  '&.Mui-selected': { bgcolor: 'secondary.accent' },
+  '&.Mui-disabled': { opacity: 0.45 },
+
   textTransform: 'uppercase',
 };

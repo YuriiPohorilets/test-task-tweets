@@ -8,7 +8,7 @@ export const Layout = () => {
     <>
       <NavBar />
 
-      <Box component="main" sx={{ py: '88px' }}>
+      <Box component="main" sx={{ pt: '28px', pb: '60px' }}>
         <Container>
           <Suspense fallback={null}>
             <Outlet />
