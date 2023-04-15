@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, HashRouter } from 'react-router-dom';
 import { Layout } from 'components/Layout/Layout';
 import { Home } from 'pages/Home';
 import { Tweets } from 'pages/Tweets';
