@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { getUsers, updateUser } from 'utils/usersApi';
 import { isSameUser, compareArr } from 'utils/compareArray';
-import { limit } from 'refs/constants';
+import { limit, lsKeys } from 'refs/constants';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { TweetsList } from 'components/TweetsList/TweetsList';
 import { ToolsBar } from 'components/ToolsBar/ToolsBar';
@@ -13,9 +13,9 @@ import { ToTopButton } from 'components/ToTopButton/ToTopButton';
 import { centredItemsStyles } from 'shared/basicStyles';
 
 export const Tweets = () => {
-  const [users, setUsers] = useLocalStorage('users', []);
-  const [filter, setFilter] = useLocalStorage('filter', ['Show all']);
-  const [followings, setFollowings] = useLocalStorage('followings', []);
+  const [users, setUsers] = useLocalStorage(lsKeys.users, []);
+  const [filter, setFilter] = useLocalStorage(lsKeys.filter, ['Show all']);
+  const [followings, setFollowings] = useLocalStorage(lsKeys.followings, []);
   const [page, setPage] = useState(1);
   // const [totalHits, setTotalHits] = useState(0);
   const [index, setIndex] = useState(limit);

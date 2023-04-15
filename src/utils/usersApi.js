@@ -1,7 +1,7 @@
 import axios from 'axios';
-import { limit } from 'refs/constants';
+import { limit, baseUrlApi } from 'refs/constants';
 
-axios.defaults.baseURL = 'https://6436f7fc8205915d34019426.mockapi.io/api/';
+axios.defaults.baseURL = baseUrlApi;
 
 const searchParams = new URLSearchParams({
   limit,
