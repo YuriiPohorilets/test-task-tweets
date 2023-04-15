@@ -3,6 +3,7 @@ import { Box } from '@mui/material';
 import { getUsers, updateUser } from 'utils/usersApi';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { TweetsList } from 'components/TweetsList/TweetsList';
+import { ToolsBar } from 'components/ToolsBar/ToolsBar';
 import { GoBackButton } from 'components/GoBackButton/GoBackButton';
 import { Filter } from 'components/Filter/Filter';
 import { Pagination } from 'components/Pagination/Pagination';
@@ -12,27 +13,26 @@ export const Tweets = () => {
   const [users, setUsers] = useLocalStorage('users', []);
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useState('Show all');
-  // const [totalHits, setTotalHits] = useState(0);
+  const [totalHits, setTotalHits] = useState(10);
   const [followings, setFollowings] = useLocalStorage('followings', []);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getUsers(page);
 
-      // setUsers(prevUsers => (page === 1 ? data : [...prevUsers, ...data]));
       setUsers(() => {
         const newUser = data.map(user => {
           if (followings.includes(user.id)) {
             return { ...user, isFollow: true };
           }
-          return user;
+          return { ...user, isFollow: false };
         });
 
         return [...newUser];
       });
     };
 
-    fetchData();
+    fetchData().then(setTotalHits(3));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
@@ -83,7 +83,7 @@ export const Tweets = () => {
     }
 
     if (filter === 'Followings') {
-      return user?.isFollow !== false;
+      return user.isFollow === true;
     }
 
     if (filter === 'Show all') {
@@ -94,31 +94,16 @@ export const Tweets = () => {
   });
 
   return (
-    <Box
-      sx={{
-        ...centredItemsStyles,
-        flexDirection: 'column',
-        gap: '28px',
-      }}
-    >
-      <Box
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: '24px',
-          width: '100%',
-        }}
-      >
+    <Box sx={{ ...centredItemsStyles, flexDirection: 'column', gap: '28px' }}>
+      <ToolsBar>
         <GoBackButton />
+
         <Filter value={filter} onChange={handleFilter} />
-      </Box>
+      </ToolsBar>
 
       {users && <TweetsList users={filtredUsers} onClick={handleFollow} />}
 
-      {/* {isLoading && <CircularProgress color="secondary" />} */}
-      <Pagination onChange={handleChangePage} />
-      {/* <LoadMore disabled={isLoading} onClick={handleChangePage} /> */}
+      <Pagination onChange={handleChangePage} totalHits={totalHits} />
     </Box>
   );
 };

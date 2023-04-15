@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Button, Menu, MenuItem, Tooltip, Typography, Fade } from '@mui/material';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
-import { filterItems } from 'refs/filterItems';
+import { statusFilters } from 'refs/constants';
+import { buttonFilterStyle, textStyle, iconFilterStyle, menuItemsStyle } from './filterStyles';
 
 export const Filter = ({ value, onChange }) => {
   const [anchorEl, setAnchorEl] = useState('');
@@ -24,31 +25,29 @@ export const Filter = ({ value, onChange }) => {
           aria-haspopup="true"
           aria-expanded={open ? 'true' : undefined}
           onClick={handleClick}
-          sx={{ '&:hover': { bgcolor: 'secondary.accent' } }}
+          sx={buttonFilterStyle}
         >
-          <Typography sx={{ fontSize: '18px', color: 'primary.accent' }}>{value}</Typography>
-          <FilterAltIcon sx={{ fontSize: '32px', color: 'primary.accent' }} />
+          <Typography sx={textStyle}>{value}</Typography>
+          <FilterAltIcon sx={iconFilterStyle} />
         </Button>
       </Tooltip>
 
       <Menu
         id="fade-menu"
-        MenuListProps={{
-          'aria-labelledby': 'fade-button',
-        }}
+        MenuListProps={{ 'aria-labelledby': 'fade-button' }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        {filterItems.map(item => {
+        {statusFilters.map(item => {
           return (
             <MenuItem
               key={item}
               onClick={() => {
                 onChange(item, setAnchorEl);
               }}
-              sx={{ '&:hover': { bgcolor: 'secondary.accent' }, textTransform: 'uppercase' }}
+              sx={menuItemsStyle}
             >
               {item}
             </MenuItem>

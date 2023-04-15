@@ -1,10 +1,10 @@
 import { Pagination as PaginationMui } from '@mui/material';
 
-export const Pagination = ({ onChange }) => {
+export const Pagination = ({ onChange, totalHits }) => {
   return (
     <PaginationMui
       onChange={onChange}
-      count={10}
+      count={totalHits}
       size="large"
       variant="outlined"
       shape="rounded"
