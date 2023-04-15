@@ -9,6 +9,7 @@ import { ToolsBar } from 'components/ToolsBar/ToolsBar';
 import { GoBackButton } from 'components/GoBackButton/GoBackButton';
 import { Filter } from 'components/Filter/Filter';
 import { LoadMoreButton } from 'components/LoadMoreButton/LoadMoreButton';
+import { ToTopButton } from 'components/ToTopButton/ToTopButton';
 import { centredItemsStyles } from 'shared/basicStyles';
 
 export const Tweets = () => {
@@ -19,6 +20,7 @@ export const Tweets = () => {
   // const [totalHits, setTotalHits] = useState(0);
   const [index, setIndex] = useState(limit);
   const [isLoading, setIsLoading] = useState(false);
+  const [isOffsetPage, setIsOffsetPage] = useState(false);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +46,14 @@ export const Tweets = () => {
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
+
+  useEffect(() => {
+    const offsetTrigger = 350;
+
+    window.addEventListener('scroll', () => {
+      window.scrollY > offsetTrigger ? setIsOffsetPage(true) : setIsOffsetPage(false);
+    });
+  }, []);
 
   const handleFollow = async userId => {
     setFollowings(prevFollowings => {
@@ -104,6 +114,8 @@ export const Tweets = () => {
       {users && <TweetsList users={filtredUsers} onClick={handleFollow} />}
 
       <LoadMoreButton loading={isLoading} onClick={handleChangePage} />
+
+      {isOffsetPage && <ToTopButton />}
     </Box>
   );
 };

@@ -53,3 +53,7 @@ export const contentBoxStyle = {
   flexDirection: 'column',
   gap: '16px',
 };
+
+export const buttonActiveStyles = {
+  bgcolor: 'primary.darker',
+};

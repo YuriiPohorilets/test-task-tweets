@@ -8,6 +8,7 @@ import {
   avatarBorderStyle,
   avatarBoxStyle,
   contentBoxStyle,
+  buttonActiveStyles,
 } from './tweetsItemStyles';
 import ImageBg from 'assets/img-1.webp';
 import Logo from 'assets/logo.svg';
@@ -22,8 +23,8 @@ export const TweetsItem = ({ user, onClick }) => {
           component="img"
           src={Logo}
           alt="Goit logo"
-          width="76"
-          height="22"
+          width="76px"
+          height="22px"
           loading="lazy"
           sx={logoStyle}
         />
@@ -46,8 +47,9 @@ export const TweetsItem = ({ user, onClick }) => {
 
       <Button
         onClick={() => onClick(id)}
+        data-follow={isFollow}
         variant="contained"
-        sx={{ ...buttonStyles, ...(isFollow ? { bgcolor: 'primary.darker' } : {}) }}
+        sx={{ ...buttonStyles, ...(isFollow && { ...buttonActiveStyles }) }}
       >
         {isFollow ? 'Following' : 'Follow'}
       </Button>
