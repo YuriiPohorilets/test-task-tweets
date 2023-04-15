@@ -4,9 +4,9 @@ import { FilterAlt } from '@mui/icons-material/';
 import { statusFilters } from 'refs/constants';
 import { buttonFilterStyle, textStyle, iconFilterStyle, menuItemsStyle } from './filterStyles';
 
-export const Filter = ({ value, onChange }) => {
+export const Filter = ({ value = 'Show all', onChange }) => {
   const [anchorEl, setAnchorEl] = useState('');
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedItem, setSelectedItem] = useState(value);
 
   const open = Boolean(anchorEl);
 
@@ -42,14 +42,14 @@ export const Filter = ({ value, onChange }) => {
         onClose={handleClose}
         TransitionComponent={Fade}
       >
-        {statusFilters.map((item, index) => {
+        {statusFilters.map(item => {
           return (
             <MenuItem
               key={item}
-              disabled={index === selectedIndex}
-              selected={index === selectedIndex}
+              disabled={item === selectedItem}
+              selected={item === selectedItem}
               onClick={() => {
-                onChange(item, index, setAnchorEl, setSelectedIndex);
+                onChange(item, setAnchorEl, setSelectedItem);
               }}
               sx={menuItemsStyle}
             >

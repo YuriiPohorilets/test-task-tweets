@@ -1,26 +1,27 @@
 import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { getUsers, updateUser } from 'utils/usersApi';
+import { isSameUser, compareArr } from 'utils/compareArray';
 import { useLocalStorage } from 'hooks/useLocalStorage';
 import { TweetsList } from 'components/TweetsList/TweetsList';
 import { ToolsBar } from 'components/ToolsBar/ToolsBar';
 import { GoBackButton } from 'components/GoBackButton/GoBackButton';
 import { Filter } from 'components/Filter/Filter';
-import { Pagination } from 'components/Pagination/Pagination';
+import { LoadMoreButton } from 'components/LoadMoreButton/LoadMoreButton';
 import { centredItemsStyles } from 'shared/basicStyles';
 
 export const Tweets = () => {
   const [users, setUsers] = useLocalStorage('users', []);
   const [page, setPage] = useState(1);
   const [filter, setFilter] = useLocalStorage('filter', ['Show all']);
-  const [totalHits, setTotalHits] = useState(10);
+  // const [totalHits, setTotalHits] = useState(10);
   const [followings, setFollowings] = useLocalStorage('followings', []);
 
   useEffect(() => {
     const fetchData = async () => {
       const data = await getUsers(page);
 
-      setUsers(() => {
+      setUsers(prevUsers => {
         const newUser = data.map(user => {
           if (followings.includes(user.id)) {
             return { ...user, isFollow: true };
@@ -28,11 +29,13 @@ export const Tweets = () => {
           return { ...user, isFollow: false };
         });
 
-        return [...newUser];
+        const compareUsers = compareArr(prevUsers, data, isSameUser);
+
+        return [...compareUsers, ...newUser];
       });
     };
 
-    fetchData().then(setTotalHits(10));
+    fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
 
@@ -62,27 +65,24 @@ export const Tweets = () => {
     updateUser(userId, user.followers);
   };
 
-  const handleFilter = (value, index, closeMenufn, setIndex) => {
+  const handleFilter = (value, closeMenufn, setSelectedItem) => {
     setFilter(value);
-    setIndex(index);
+    setSelectedItem(value);
     closeMenufn(null);
   };
 
-  const handleChangePage = (_, value) => {
-    setPage(value);
-
-    window.scrollTo({
-      top: 0,
-      behavior: 'smooth',
-    });
+  const handleChangePage = () => {
+    setPage(prevPage => prevPage + 1);
   };
 
-  const filtredUsers = users.filter(user => {
-    if (filter === 'Follow') return !user.isFollow;
-    if (filter === 'Followings') return user.isFollow;
+  const filtredUsers = users
+    .filter(user => {
+      if (filter === 'Follow') return !user.isFollow;
+      if (filter === 'Followings') return user.isFollow;
 
-    return user;
-  });
+      return user;
+    })
+    .sort((a, b) => a.id - b.id);
 
   return (
     <Box sx={{ ...centredItemsStyles, flexDirection: 'column', gap: '28px' }}>
@@ -94,7 +94,7 @@ export const Tweets = () => {
 
       {users && <TweetsList users={filtredUsers} onClick={handleFollow} />}
 
-      <Pagination onChange={handleChangePage} totalHits={totalHits} />
+      <LoadMoreButton onClick={handleChangePage} />
     </Box>
   );
 };
