@@ -16,8 +16,8 @@ export const Tweets = () => {
   const [filter, setFilter] = useLocalStorage('filter', ['Show all']);
   const [followings, setFollowings] = useLocalStorage('followings', []);
   const [page, setPage] = useState(1);
-  const [totalHits, setTotalHits] = useState(0);
-  const [index, setIndex] = useState(9);
+  // const [totalHits, setTotalHits] = useState(0);
+  const [index, setIndex] = useState(limit);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -72,11 +72,11 @@ export const Tweets = () => {
   };
 
   const handleFilter = (value, closeMenufn, setSelectedItem) => {
-    console.log(page);
     setFilter(value);
     setSelectedItem(value);
-    closeMenufn(null);
     setPage(1);
+    setIndex(limit);
+    closeMenufn(null);
   };
 
   const handleChangePage = () => {
@@ -98,7 +98,7 @@ export const Tweets = () => {
     <Box sx={{ ...centredItemsStyles, flexDirection: 'column', gap: '28px' }}>
       <ToolsBar>
         <GoBackButton />
-        <Filter value={filter} onChange={handleFilter} />
+        <Filter value={filter} onChange={handleFilter} resetPage={setPage} />
       </ToolsBar>
 
       {users && <TweetsList users={filtredUsers} onClick={handleFollow} />}
