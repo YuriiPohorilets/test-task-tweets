@@ -2,11 +2,9 @@
 
 # Tweets | Тестове завдання GoIT
 
-## Огляд додатку ![Огляд сторінки](./assets/prevSpeedup-1.gif)
+## Огляд додатку
 
-## Головна сторінка ![Сторінка main](./assets/prev-1.png)
-
-## Сторінка твіттів ![Сторінка Tweets](./assets/prev-2.png)
+![Огляд сторінки](./assets/prev-3.gif)
 
 # [Жива сторінка](https://yuriipohorilets.github.io/test-task-tweets/)
 

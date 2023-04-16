@@ -2,11 +2,9 @@
 
 # Tweets | Test task GoIT
 
-## App view ![App view](./assets/prevSpeedup-1.gif)
+## App view
 
-## Main page ![Main page](./assets/prev-1.png)
-
-## Tweets page ![Tweets page](./assets/prev-2.png)
+![App view](./assets/prev-3.gif)
 
 ## [View a demo](https://yuriipohorilets.github.io/test-task-tweets/)
 
