@@ -1,23 +1,54 @@
-import { Typography } from '@mui/material';
+import { Typography, Box } from '@mui/material';
+import {
+  titleStyle,
+  centredItemsStyles,
+  subtitleStyle,
+  typographyStyle,
+  wrapperStyle,
+  descriptionStyle,
+} from 'shared/basicStyles';
+import Icon from 'img/follow.png';
 
 export const Home = () => {
   return (
-    <div>
-      <Typography>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Neque, impedit cumque. Reiciendis,
-        esse laborum aliquam quisquam dolorem earum, dolore, unde cumque soluta hic facilis ratione
-        molestiae eaque perspiciatis quibusdam non ipsam vel incidunt doloremque quidem officiis
-        voluptatibus quia sit! Reprehenderit, quos! Ut veniam ea nemo quod quibusdam minima nisi
-        aperiam consectetur. Cumque repudiandae tempore beatae sed quidem quos accusamus, dolorem
-        minima corporis tenetur rem unde nulla distinctio earum, amet eveniet natus odit alias at
-        voluptatum ipsa suscipit nihil obcaecati quo? Laudantium rem minima debitis autem quisquam
-        totam est ab ratione quod ipsum expedita obcaecati, sapiente reiciendis quos illo quis
-        libero reprehenderit quidem quasi alias molestias. Nulla quos similique nemo nesciunt
-        expedita repellat sit in rem non rerum? Suscipit nam accusamus aperiam libero commodi
-        voluptatem distinctio sunt pariatur dolore molestiae ab facilis, fuga consequatur rem
-        repellat provident eos quisquam officiis excepturi debitis. Libero id, deserunt possimus ad
-        ea nostrum hic voluptate.
-      </Typography>
-    </div>
+    <Box>
+      <Box sx={{ ...centredItemsStyles, gap: '30px', justifyContent: 'flex-start', mb: '28px' }}>
+        <img src={Icon} alt="" width={90} height={90} />
+        <Typography component="h1" sx={titleStyle}>
+          Tweets application
+        </Typography>
+      </Box>
+
+      <Box sx={wrapperStyle}>
+        <Typography sx={subtitleStyle}>This is how ChatGPT described this app:</Typography>
+
+        <Typography sx={{ ...typographyStyle, mb: '16px' }}>
+          <i>
+            “It contains a collection of tweets that can be used to analyze social trends and
+            popular topics. The website features tweets from various countries, allowing for the
+            exploration of social habits and attitudes across different cultures. This website is an
+            invaluable tool for sociologists, marketers, and anyone interested in social media and
+            its impact on society.”
+          </i>
+        </Typography>
+
+        <Typography sx={{ ...typographyStyle, fontSize: '24px', mb: '32px' }}>
+          But in fact, this is a simple application with a nice design for managing tweets, there is
+          an option to filter by follow status
+        </Typography>
+
+        <Typography fontSize={14}>
+          Created by:{' '}
+          <Typography
+            component="a"
+            href="https://github.com/YuriiPohorilets"
+            target="_blank"
+            sx={descriptionStyle}
+          >
+            Yurii Pohorilets
+          </Typography>
+        </Typography>
+      </Box>
+    </Box>
   );
 };

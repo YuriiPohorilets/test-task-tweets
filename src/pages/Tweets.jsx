@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import { getUsers, updateUser } from 'utils/usersApi';
 import { isSameUser, compareArr } from 'utils/compareArray';
-import { limit, lsKeys } from 'refs/constants';
 import { useLocalStorage } from 'hooks/useLocalStorage';
+import { limit, lsKeys } from 'refs/constants';
 import { TweetsList } from 'components/TweetsList/TweetsList';
 import { ToolsBar } from 'components/ToolsBar/ToolsBar';
-import { GoBackButton } from 'components/GoBackButton/GoBackButton';
 import { Filter } from 'components/Filter/Filter';
+import { GoBackButton } from 'components/GoBackButton/GoBackButton';
 import { LoadMoreButton } from 'components/LoadMoreButton/LoadMoreButton';
 import { ToTopButton } from 'components/ToTopButton/ToTopButton';
 import { centredItemsStyles } from 'shared/basicStyles';
@@ -18,7 +18,7 @@ export const Tweets = () => {
   const [followings, setFollowings] = useLocalStorage(lsKeys.followings, []);
   const [page, setPage] = useState(1);
   // const [totalHits, setTotalHits] = useState(0);
-  const [index, setIndex] = useState(limit);
+  const [indexLimit, setIndexLimit] = useState(limit);
   const [isLoading, setIsLoading] = useState(false);
   const [isOffsetPage, setIsOffsetPage] = useState(false);
 
@@ -85,13 +85,13 @@ export const Tweets = () => {
     setFilter(value);
     setSelectedItem(value);
     setPage(1);
-    setIndex(limit);
+    setIndexLimit(limit);
     closeMenufn(null);
   };
 
   const handleChangePage = () => {
     setPage(prevPage => prevPage + 1);
-    setIndex(prevIndex => prevIndex + limit);
+    setIndexLimit(prevIndexLimit => prevIndexLimit + limit);
   };
 
   const filtredUsers = users
@@ -102,7 +102,7 @@ export const Tweets = () => {
       return user;
     })
     .sort((a, b) => a.id - b.id)
-    .splice(0, index);
+    .splice(0, indexLimit);
 
   return (
     <Box sx={{ ...centredItemsStyles, flexDirection: 'column', gap: '28px' }}>

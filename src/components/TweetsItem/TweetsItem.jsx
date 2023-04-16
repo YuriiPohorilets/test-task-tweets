@@ -10,8 +10,8 @@ import {
   contentBoxStyle,
   buttonActiveStyles,
 } from './tweetsItemStyles';
-import ImageBg from 'assets/img-1.webp';
-import Logo from 'assets/logo.svg';
+import ImageBg from 'img/img-1.webp';
+import Logo from 'img/logo.svg';
 
 export const TweetsItem = ({ user, onClick }) => {
   const { id, user: name, followers, avatar, tweets, isFollow = false } = user;

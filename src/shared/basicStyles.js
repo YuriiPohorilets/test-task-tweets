@@ -24,3 +24,27 @@ export const buttonStyles = {
   borderRadius: '10px',
   boxShadow: '0px 3px 3px rgba(0, 0, 0, 0.25);',
 };
+
+export const wrapperStyle = {
+  maxWidth: '750px',
+};
+
+export const titleStyle = {
+  fontSize: '64px',
+  color: 'primary.accent',
+};
+
+export const subtitleStyle = {
+  mb: '8px',
+  fontSize: '24px',
+  color: 'neutral.main',
+};
+
+export const typographyStyle = {
+  color: 'neutral.main',
+};
+
+export const descriptionStyle = {
+  fontSize: '14px',
+  color: 'primary.accent',
+};
