@@ -13,6 +13,6 @@ export const lsKeys = Object.freeze({
 
 export const limit = 9;
 
-export const totalItems = 20;
+export const totalItems = 90;
 
 export const baseUrlApi = 'https://6436f7fc8205915d34019426.mockapi.io/api/';
