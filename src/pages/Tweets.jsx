@@ -3,7 +3,7 @@ import { Box } from '@mui/material';
 import { getUsers, updateUser } from 'utils/usersApi';
 import { isSameUser, compareArr } from 'utils/compareArray';
 import { useLocalStorage } from 'hooks/useLocalStorage';
-import { limit, lsKeys } from 'refs/constants';
+import { limit, lsKeys, totalItems } from 'refs/constants';
 import { TweetsList } from 'components/TweetsList/TweetsList';
 import { ToolsBar } from 'components/ToolsBar/ToolsBar';
 import { Filter } from 'components/Filter/Filter';
@@ -17,7 +17,7 @@ export const Tweets = () => {
   const [filter, setFilter] = useLocalStorage(lsKeys.filter, ['Show all']);
   const [followings, setFollowings] = useLocalStorage(lsKeys.followings, []);
   const [page, setPage] = useState(1);
-  // const [totalHits, setTotalHits] = useState(0);
+  const [totalHits, setTotalHits] = useState(totalItems);
   const [indexLimit, setIndexLimit] = useState(limit);
   const [isLoading, setIsLoading] = useState(false);
   const [isOffsetPage, setIsOffsetPage] = useState(false);
@@ -69,7 +69,7 @@ export const Tweets = () => {
         })
       );
 
-      if (index === -1 || prevFollowings.lenght === 0) {
+      if (index === -1) {
         return [...prevFollowings, userId];
       } else {
         prevFollowings.splice(index, 1);
@@ -87,11 +87,18 @@ export const Tweets = () => {
     setPage(1);
     setIndexLimit(limit);
     closeMenufn(null);
+
+    if (value === 'Follow') setTotalHits(totalItems - followings.length);
+
+    if (value === 'Followings') setTotalHits(followings.length);
+
+    if (value === 'Show all') setTotalHits(totalItems);
   };
 
   const handleChangePage = () => {
     setPage(prevPage => prevPage + 1);
     setIndexLimit(prevIndexLimit => prevIndexLimit + limit);
+    setTotalHits(prevTotalHits => prevTotalHits - limit);
   };
 
   const filtredUsers = users
@@ -113,7 +120,7 @@ export const Tweets = () => {
 
       {users && <TweetsList users={filtredUsers} onClick={handleFollow} />}
 
-      <LoadMoreButton loading={isLoading} onClick={handleChangePage} />
+      {totalHits > limit && <LoadMoreButton loading={isLoading} onClick={handleChangePage} />}
 
       {isOffsetPage && <ToTopButton />}
     </Box>
