@@ -28,13 +28,13 @@ export const TweetsItem = ({ user, onClick }) => {
           loading="lazy"
           sx={logoStyle}
         />
-        <img src={ImageBg} alt={name} width="308" height="168" loading="lazy" />
+        <img src={ImageBg} alt="Background frame" width="308" height="168" loading="lazy" />
       </Box>
 
       <Box sx={dividerStyle}>
         <Box sx={{ ...centredItemsStyles, ...avatarBorderStyle }}>
           <Box sx={avatarBoxStyle}>
-            <img src={avatar} alt="" width="62" height="62" loading="lazy" />
+            <img src={avatar} alt={name} width="62" height="62" loading="lazy" />
           </Box>
         </Box>
       </Box>
