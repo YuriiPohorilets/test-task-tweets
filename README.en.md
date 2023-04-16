@@ -6,6 +6,32 @@
 
 ![App view](./assets/prev-3.gif)
 
+## Implementation of the project
+
+- The project was compiled with [create-react-app](https://create-react-app.dev/).
+- Components are created using the library
+  [MUI](https://mui.com/material-ui/getting-started/overview/)
+- Used as `backend` [mockapi.io](https://mockapi.io/)
+- State management libraries were not used. All the necessary data for the correct operation of the application
+   stored in `localStorage`
+
+### Implemented:
+
+1. `Main` page with a short description about the application
+2. The `Tweets` page, which displays cards with information about `tweets` (name, count
+    of tweets, followers and the Follow button with the option to subscribe to `tweet`)
+3. Pagination both when requesting the `backend` and when drawing cards on the page
+4. `Back` button to return to the previous page
+5. `Dropdown` with the ability to filter cards by `follow` status
+6. Automatic redirection of the user in case of switching to a non-existent `route`
+7. `Load more` button to receive additional `tweets`. In the case when all existing ones are received
+    `tweets` - the button is not displayed
+8. Saving the state of `filter` when updating the page or switching to another one
+9. Information about the `follow` status is not stored on the `backend`, but locally for each user, which
+    allows multiple users to use the application at the same time (see example below)
+
+![Point 9](./assets/prev-1.gif)
+
 ## Tech Stack
 
 ![JavaScrip](https://img.shields.io/badge/JavaScript-323330?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
