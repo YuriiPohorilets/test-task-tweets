@@ -12,10 +12,18 @@ import Icon from 'img/follow.png';
 export const Home = () => {
   return (
     <Box>
-      <Box sx={{ ...centredItemsStyles, gap: '30px', justifyContent: 'flex-start', mb: '28px' }}>
+      <Box
+        sx={{
+          ...centredItemsStyles,
+          gap: '30px',
+          justifyContent: 'flex-start',
+          mb: '28px',
+          flexWrap: 'wrap',
+        }}
+      >
         <img src={Icon} alt="" width={90} height={90} />
         <Typography component="h1" sx={titleStyle}>
-          Tweets application
+          Tweets
         </Typography>
       </Box>
 
